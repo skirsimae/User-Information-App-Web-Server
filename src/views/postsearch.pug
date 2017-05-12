@@ -1,7 +1,8 @@
 doctype html
 html
 	head
-	body		
+	body
+	script.
 		for i=0; i<name.length, i++
 			if #{input}===users[i].firstname
 				p Name: #{user[i].firstname}
@@ -13,3 +14,19 @@ html
 				p Email: #{user[i].email}
 			else
 				p No match found.
+
+	//- script.
+	//- 	for (var i = 0; i < info.length; i++){
+	//- 		if (info[i].firstname === users[i].firstname);
+	//- 			res.send("Last name: " + info[i].lastname);
+	//- 			res.send("Email: " + info[i].email);
+	//- 		}
+	//- 		else if (info[i].lastname === users[i].lastname){
+	//- 			res.send("First name: " + info[i].firstname);
+	//- 			res.send("Last name: " + info[i].lastname);
+	//- 			res.send("Email: " + info[i].email);
+	//- 		}
+	//- 		else {
+	//- 			res.send("No match")
+	//- 		}
+	//- 	}
