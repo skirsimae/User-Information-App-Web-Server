@@ -1,29 +1,18 @@
-doctype html
 html
 	head
+		title Register
 	body
-		form(name="input", action="", method="get")
-		p First name:
-		input(type="text", name="firstname")
-		p Last name:
-		input(type="text", name="lastname")
-		p Email:
-		input(type="text", name="email")
-		p
-		input(type="submit", value="Submit")
-	//- script.
- //-      for (var i = 0; i < info.length; i++) {
- //-      if (info[i].firstname === user) {
- //-      console.log("First name: " + info[i].firstname);
- //-      console.log("Last name: " + info[i].lastname);
- //-      console.log("Email: " + info[i].email);
- //-      }
- //-      else if (info[i].lastname === user) {
- //-      console.log("First name: " + info[i].firstname);
- //-      console.log("Last name: " + info[i].lastname);
- //-      console.log("Email: " + info[i].email);
- //-      }
- //-      else {
- //-      console.log ("No match")
- //-      }
- //-      }
+		form(action="/register", method="POST")
+			div
+				label(for="name") First name: 
+				input(name="firstname")
+			br
+			div
+				label(for="name") Last name: 
+				input(name="lastname")
+			br
+			div
+				label(for="email") Email: 
+				input(name="email")
+			br
+			button(type="submit") Submit
