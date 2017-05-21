@@ -28,7 +28,6 @@ app.get('/', function(req, res) { //routes are always in the form of: app.get/ap
     });
 });
 
-
 // Part 1
 // Create two more routes:
 // - route 2: renders a page that displays a form which is your search bar.
@@ -58,11 +57,30 @@ app.post('/search', function(req, res) {
                 var email = user[i].email;
             }
         }
+        
         res.render("find", {
             first: firstname,
             last: lastname,
             email: email
         });
+    });
+});
+
+//AJAX part
+app.post('/suggestion', function (req, res) { //this part gives suggestions.
+    var input = req.body.input; //get the input key of the body (in search.pug file)
+
+    fs.readFile('./users.json', function (err, data) {
+        users = JSON.parse(data);
+
+        var suggestion = []; //need an array to find matching users.
+        users.forEach(function(user) { //look through the users list.
+            if(user.firstname.startsWith(input) || user.lastname.startsWith(input)) { //check whether there is a match with the starting letter. 
+                suggestion.push(user); //push the matching suggestion.
+            }
+        });
+
+        res.send(suggestion); //send the suggestion.
     });
 });
 
@@ -83,13 +101,13 @@ app.post('/register', function(req, res) {
             throw err;
         }
 
-        user = JSON.parse(data);
+        var user = JSON.parse(data);
 
-        firstname = req.body.firstname;
-        lastname = req.body.lastname;
-        email = req.body.email;
+        var firstname = req.body.firstname;
+        var lastname = req.body.lastname;
+        var email = req.body.email;
 
-        newUser = {
+        var newUser = {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             email: req.body.email
@@ -100,6 +118,7 @@ app.post('/register', function(req, res) {
         res.redirect('/')
     });
 });
+
 
 
 // http://localhost:3000
