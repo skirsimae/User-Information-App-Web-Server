@@ -1,12 +1,30 @@
 html
 	head
-		title Search
+		title="Search users"
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
 	body
-		form(action='', method='POST')
+		form(action="/search", method="post", autocomplete="off") 
 			p Search for name:
-			input(type="text", name="name")
+			input(type="text" name="name" id="search")
 			p
-			input(type="submit", value="Search")
-
-
+			input(type="submit", value="search")
+		div(id="showUser")
+		script.
+			$(document).ready(function() { //wait for the document to be ready.
+				$("#search").keyup(function() { //keyup function, captures when something is typed in the search bar.
+					var input = $("#search").val();
+					if(input.length === 0) {
+						$("#showUser").empty(); //if there is no input, clear up the suggestion list. 
+					} else {
+						$.post('/suggestion', {input: $("#search").val() }, function (suggestion) { //passing an object which contains one key: "input" and its value: "search"
+							$('#showUser').empty(); //delete old suggestions before appending new suggestions.
+								suggestion.forEach(function(result) { 
+									var li = $('<li/>');
+									li.html(result.firstname + " " + result.lastname); //show list item instead of the json file.
+									$('#showUser').append(li); //append the suggestion as a list item.
+								});
+						});
+					};
+				});
+			});
 
