@@ -74,7 +74,7 @@ app.post('/suggestion', function (req, res) { //this part gives suggestions.
         users = JSON.parse(data);
 
         var suggestion = []; //need an array to find matching users.
-        users.forEach(function(user) { //look through the users list.
+        users.forEach(function(user) { //loop through the users list.
             if(user.firstname.startsWith(input) || user.lastname.startsWith(input)) { //check whether there is a match with the starting letter. 
                 suggestion.push(user); //push the matching suggestion.
             }
