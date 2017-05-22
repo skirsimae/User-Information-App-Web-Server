@@ -1,0 +1,10 @@
+mixin navLink(link, name) 
+	li
+		a(
+			href=link
+		) #{name}
+
+ul
+	+navLink('/', "Show all users")
+	+navLink('/search', "Search for users")
+	+navLink('/register', "Register!")

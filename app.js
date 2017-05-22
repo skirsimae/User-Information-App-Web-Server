@@ -45,19 +45,14 @@ app.post('/search', function(req, res) {
 
         var input = req.body.name;
         var user = JSON.parse(data);
-
+    
         for (var i = 0; i < user.length; i++) {
-            if (input === user[i].firstname) {
+            if (user[i].firstname === input|| user[i].lastname === input || user[i].firstname+" "+user[i].lastname === input){
                 var firstname = user[i].firstname;
                 var lastname = user[i].lastname;
                 var email = user[i].email;
-            } else if (input === user[i].lastname) {
-                var firstname = user[i].firstname;
-                var lastname = user[i].lastname;
-                var email = user[i].email;
-            }
-        }
-        
+            };
+        };
         res.render("find", {
             first: firstname,
             last: lastname,
@@ -74,7 +69,7 @@ app.post('/suggestion', function (req, res) { //this part gives suggestions.
         users = JSON.parse(data);
 
         var suggestion = []; //need an array to find matching users.
-        users.forEach(function(user) { //look through the users list.
+        users.forEach(function(user) { //loop through the users list.
             if(user.firstname.startsWith(input) || user.lastname.startsWith(input)) { //check whether there is a match with the starting letter. 
                 suggestion.push(user); //push the matching suggestion.
             }
