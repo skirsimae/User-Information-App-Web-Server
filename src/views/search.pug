@@ -24,11 +24,12 @@ html
 								$.post('/suggestion', {input: $("#search").val() }, function (suggestion) { //pass an object which contains one key: "input" and its value: "search"
 									if (suggestion[0] !== undefined) {
 										document.getElementById("suggestion1").setAttribute("value", suggestion[0].firstname +" "+ suggestion[0].lastname);
+									}
+									if (suggestion[1] !== undefined) {
 										document.getElementById("suggestion2").setAttribute("value", suggestion[1].firstname +" "+ suggestion[1].lastname)
 									};
 								});
 							};
-
 						});
 					};
 					giveSuggestion();
