@@ -1,38 +1,3 @@
-//- html
-//- 	head
-//- 		title="Search users"
-//- 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
-//- 	body
-//- 		form(action="/search", method="post", autocomplete="off") 
-//- 			p Search for name:
-//- 			input(type="text" name="name" id="search")
-//- 			p
-//- 			input(type="submit", value="search")
-//- 		div(id="showUser")
-//- 		script.
-//- 			$(document).ready(function() { //wait for the document to be ready.
-//- 				var lastRequestTime = 0; 
-
-//- 				$("#search").keyup(function() { //keyup function, captures when something is typed in the search bar.
-//- 					var input = $("#search").val();
-//- 					if(input.length === 0) {
-//- 						$("#showUser").empty(); //if there is no input, clear up the suggestion list. 
-//- 					} else {
-//- 						if(Date.now() - lastRequestTime > 300) { //if the current time minus the last time the request came in, is bigger than 300 milliseconds, only then execute the post request. 
-//- 							$.post('/suggestion', {input: $("#search").val() }, function (suggestion) { //passing an object which contains one key: "input" and its value: "search"
-//- 							lastRequestTime = Date.now();
-
-//- 							$('#showUser').empty(); //delete old suggestions before appending new suggestions.
-//- 								suggestion.forEach(function(result) { //
-//- 									var li = $('<li/>');
-//- 									li.html(result.firstname + " " + result.lastname); //show list item instead of the json file.
-//- 									$('#showUser').append(li); //append the suggestion as a list item.
-//- 								});
-//- 							});
-//- 						};
-//- 					};
-//- 				});
-//- 			});
 include nav
 html
 	head
@@ -42,34 +7,28 @@ html
 
 		form(action="/search", method="post", autocomplete="off") 
 			p Search for name:
-			input(type="text" name="name" id="search")
-			//- p
-			//- input(class="inputfield" id="suggestion")
-			p
-			input(type="submit", value="search")
-		div(id="showUser")
-		script.
-			$(document).ready(function() { //wait for the document to be ready.
-				var timeInMs = Date.now();
-				var requestTime = 0;
-				$("#search").keyup(function() { //keyup function, captures when something is typed in the search bar.
-					var input = $("#search").val();
-					if(input.length === 0) {
-						$("#showUser").empty(); //if there is no input, clear up the suggestion list. 
-					} else {
-						if(Date.now() - requestTime > 300) { //if the current time minus the last time the request came in, is bigger than 300 milliseconds, only then execute the post request.
-							requestTime = Date.now();
-							$('#showUser').empty(); //delete old suggestions before appending new suggestions.
-							$.post('/suggestion', {input: $("#search").val() }, function (suggestion) { //passing an object which contains one key: "input" and its value: "search"
-								suggestion.forEach(function(result) { //
-									var li = $('<li/>');
-									li.html(result.firstname + " " + result.lastname); //show list item instead of the json file.
-									$('#showUser').append(li); //append the suggestion as a list item.
-									document.getElementById("suggestion").value = data
+			input(type="text" list="suggestion" name="name" id="search")
+			datalist(id ="suggestion")
+				option(value="" id="suggestion1")
+				option(value="" id="suggestion2")
+			input(type="submit" value="Search")
+			script.
+				$(document).ready(function() { //wait for the document to be ready.
+					var giveSuggestion = function() {
+					var timeInMs = Date.now();
+					var requestTime = 0;
+						$("#search").keyup(function() { //keyup function, captures when something is typed in the search bar.
+							var input = $("#search").val();
+							if(Date.now() - requestTime > 300) { //if the current time minus the last time the request came in, is bigger than 300 milliseconds, only then execute the post request.
+								requestTime = Date.now();
+								$.post('/suggestion', {input: $("#search").val() }, function (suggestion) { //pass an object which contains one key: "input" and its value: "search"
+									if (suggestion[0] !== undefined) {
+										document.getElementById("suggestion1").setAttribute("value", suggestion[0].firstname +" "+ suggestion[0].lastname);
+										document.getElementById("suggestion2").setAttribute("value", suggestion[1].firstname +" "+ suggestion[1].lastname)
+									};
 								});
-							});
-						};
+							};
+						});
 					};
+					giveSuggestion();
 				});
-			});
-

@@ -45,26 +45,28 @@ app.post('/search', function(req, res) {
 
         var input = req.body.name;
         var user = JSON.parse(data);
-
+    
         for (var i = 0; i < user.length; i++) {
-            if (input === user[i].firstname) {
+            if (user[i].firstname === input|| user[i].lastname === input || user[i].firstname+" "+user[i].lastname === input){
                 var firstname = user[i].firstname;
                 var lastname = user[i].lastname;
                 var email = user[i].email;
-            } else if (input === user[i].lastname) {
-                var firstname = user[i].firstname;
-                var lastname = user[i].lastname;
-                var email = user[i].email;
-            }
+            };
+        };
+
+        if(firstname && lastname !== undefined) {
+            res.render("find", {
+                first: firstname,
+                last: lastname,
+                email: email
+            });
+            
+        } else if(firstname || lastname === undefined) {
+            res.end("No user found")
         }
-        
-        res.render("find", {
-            first: firstname,
-            last: lastname,
-            email: email
-        });
     });
 });
+
 
 //AJAX part
 app.post('/suggestion', function (req, res) { //this part gives suggestions.
