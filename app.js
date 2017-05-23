@@ -54,6 +54,7 @@ app.post('/search', function(req, res) {
             };
         };
 
+
         if(firstname && lastname !== undefined) {
             res.render("find", {
                 first: firstname,
@@ -64,6 +65,13 @@ app.post('/search', function(req, res) {
         } else if(firstname || lastname === undefined) {
             res.end("No user found")
         }
+      
+        res.render("find", {
+            first: firstname,
+            last: lastname,
+            email: email
+        });
+      
     });
 });
 
