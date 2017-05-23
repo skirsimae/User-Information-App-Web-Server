@@ -11,22 +11,26 @@ html
 			datalist(id ="suggestion")
 				option(value="" id="suggestion1")
 				option(value="" id="suggestion2")
-			input(type="submit", value="Search")
+			input(type="submit" value="Search")
 			script.
 				$(document).ready(function() { //wait for the document to be ready.
-					var giveSuggestion = function() { 
+					var giveSuggestion = function() {
+					var timeInMs = Date.now();
+					var requestTime = 0;
 						$("#search").keyup(function() { //keyup function, captures when something is typed in the search bar.
-						var input = $("#search").val();
-							$.post('/suggestion', {input: $("#search").val() }, function (suggestion) { //passing an object which contains one key: "input" and its value: "search"
-								if (suggestion[0] !== undefined) {
-								document.getElementById("suggestion1").setAttribute("value", suggestion[0].firstname +" "+ suggestion[0].lastname);
-								document.getElementById("suggestion2").setAttribute("value", suggestion[1].firstname +" "+ suggestion[1].lastname)
-								};
-							});
+							var input = $("#search").val();
+							if(Date.now() - requestTime > 300) { //if the current time minus the last time the request came in, is bigger than 300 milliseconds, only then execute the post request.
+								requestTime = Date.now();
+								$.post('/suggestion', {input: $("#search").val() }, function (suggestion) { //pass an object which contains one key: "input" and its value: "search"
+									if (suggestion[0] !== undefined) {
+										document.getElementById("suggestion1").setAttribute("value", suggestion[0].firstname +" "+ suggestion[0].lastname);
+										document.getElementById("suggestion2").setAttribute("value", suggestion[1].firstname +" "+ suggestion[1].lastname)
+									};
+								});
+							};
+
 						});
 					};
 					giveSuggestion();
 				});
-
-
 

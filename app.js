@@ -53,13 +53,28 @@ app.post('/search', function(req, res) {
                 var email = user[i].email;
             };
         };
+
+
+        if(firstname && lastname !== undefined) {
+            res.render("find", {
+                first: firstname,
+                last: lastname,
+                email: email
+            });
+            
+        } else if(firstname || lastname === undefined) {
+            res.end("No user found")
+        }
+      
         res.render("find", {
             first: firstname,
             last: lastname,
             email: email
         });
+      
     });
 });
+
 
 //AJAX part
 app.post('/suggestion', function (req, res) { //this part gives suggestions.
